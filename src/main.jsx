@@ -1,29 +1,8 @@
-import { StrictMode } from "react";
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
-import { 
-  createRoot 
-} from "react-dom/client";
-
-
-import App from "./App.jsx";
-
-import "./style.css";
-
-
-
-
-createRoot(
-document.getElementById("root")
-)
-
-.render(
-
-
-<StrictMode>
-
-<App/>
-
-</StrictMode>
-
-
-);
+export default defineConfig({
+  plugins: [react()],
+  // Add base path matching your GitHub repository name:
+  base: '/youth-portal-system/', 
+})
