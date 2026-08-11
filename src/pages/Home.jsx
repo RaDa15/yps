@@ -1,47 +1,29 @@
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import Journey from "../components/Journey";
-import Dashboard from "../components/Dashboard";
-import Innovation from "../components/Innovation";
+import Impact from "../components/Impact";
 import YouthCentres from "../components/YouthCentres";
-import CTASection from "../components/CTASection";
+import TestimonialsSection from "../components/TestimonialsSection";
 import ContactSection from "../components/ContactSection";
 import Footer from "../components/Footer";
+import FAQ from "../components/FAQ";
 
-
-function Home(){
-
-return(
-
-<>
-
-<Navbar/>
-
-<main>
-
-<Hero/>
-
-<Journey/>
-
-<Dashboard/>
-
-<Innovation/>
-
-<YouthCentres/>
-
-<CTASection/>
-
-<ContactSection/>
-
-</main>
-
-<Footer/>
-
-</>
-
-)
-
+function Home() {
+    return (
+        <>
+            <Navbar />
+            <main>
+                <Hero />
+                <Journey />
+                <Impact />
+                <YouthCentres />
+                <TestimonialsSection />
+                <ContactSection />
+                <FAQ />
+            </main>
+            <Footer />
+        </>
+    )
 }
-
 
 export default Home;

@@ -1,24 +1,21 @@
-import Sidebar from "../components/Sidebar";
-import TopNavbar from "../components/TopNavbar";
+import Sidebar from "../components/dashboard/Sidebar";
+import DashboardNavbar from "../components/dashboard/DashboardNavbar";
 
-export default function DashboardLayout({children}) {
-  return (
-    <div className="flex min-h-screen bg-[#f8f9ff]">
+function DashboardLayout({ children }) {
+    return (
+        <div className="min-h-screen bg-gray-50 flex">
+            {/* Sidebar */}
+            <Sidebar />
 
-      {/* Sidebar */}
-      <Sidebar />
-
-      {/* Main Area */}
-      <div className="flex-1 ml-72">
-
-        <TopNavbar />
-
-        <main className="p-8">
-          {children}
-        </main>
-
-      </div>
-
-    </div>
-  );
+            {/* Content Area */}
+            <div className="flex-1 lg:ml-72">
+                <DashboardNavbar />
+                <main className="p-6 lg:p-10">
+                    {children}
+                </main>
+            </div>
+        </div>
+    );
 }
+
+export default DashboardLayout;
