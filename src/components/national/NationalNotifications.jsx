@@ -19,7 +19,7 @@ const INITIAL_NOTIFICATIONS = [
     type: "activity",
     title: "New Network Activity Submitted",
     message:
-      "Thimphu Y-PEER Network submitted a national-level youth awareness activity for review.",
+      "Thimphu Youth Led Group Network submitted a national-level youth awareness activity for review.",
     time: "15 minutes ago",
     unread: true,
     priority: "High",
@@ -29,7 +29,7 @@ const INITIAL_NOTIFICATIONS = [
     type: "volunteer",
     title: "Volunteer Milestone Reached",
     message:
-      "25 volunteers across Y-PEER networks have completed more than 50 verified service hours.",
+      "25 volunteers across Youth Led Group networks have completed more than 50 verified service hours.",
     time: "1 hour ago",
     unread: true,
     priority: "Normal",
@@ -39,7 +39,7 @@ const INITIAL_NOTIFICATIONS = [
     type: "network",
     title: "Network Performance Update",
     message:
-      "Paro Y-PEER Network participation has decreased by 2.1% compared with the previous month.",
+      "Paro Youth Led Group Network participation has decreased by 2.1% compared with the previous month.",
     time: "3 hours ago",
     unread: true,
     priority: "Medium",
@@ -49,7 +49,7 @@ const INITIAL_NOTIFICATIONS = [
     type: "calendar",
     title: "Upcoming National Activity",
     message:
-      "National Y-PEER Volunteer Orientation is scheduled for 18 August 2026.",
+      "National Youth Led Group Volunteer Orientation is scheduled for 18 August 2026.",
     time: "Yesterday",
     unread: false,
     priority: "Normal",
@@ -59,7 +59,7 @@ const INITIAL_NOTIFICATIONS = [
     type: "system",
     title: "Monthly Report Available",
     message:
-      "The July 2026 consolidated Y-PEER network report is ready for review.",
+      "The July 2026 consolidated Youth Led Group network report is ready for review.",
     time: "Yesterday",
     unread: false,
     priority: "Normal",
@@ -203,7 +203,7 @@ const NationalNotifications = () => {
 
           <p className="text-sm text-gray-500 mt-1">
             Monitor important updates, alerts and activities across
-            Y-PEER networks.
+            Youth Led Group networks.
           </p>
 
         </div>
@@ -625,9 +625,9 @@ const NationalNotifications = () => {
                     focus:ring-blue-500
                   "
                 >
-                  <option>All Y-PEER Volunteers</option>
+                  <option>All Youth Led Group Volunteers</option>
                   <option>All Network Focal Points</option>
-                  <option>Specific Y-PEER Network</option>
+                  <option>Specific Youth Led Group Network</option>
                 </select>
 
               </div>

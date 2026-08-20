@@ -16,14 +16,14 @@ const NationalOverview = () => {
   const dzongkhags = [
     {
       name: "Thimphu",
-      youth: "2,840",
+      youth: "4,840",
       engagement: 91,
       status: "High",
       trend: "+8.4%",
     },
     {
       name: "Paro",
-      youth: "1,420",
+      youth: "2,420",
       engagement: 87,
       status: "High",
       trend: "+6.2%",
@@ -37,7 +37,7 @@ const NationalOverview = () => {
     },
     {
       name: "Samtse",
-      youth: "980",
+      youth: "1100",
       engagement: 62,
       status: "Needs Support",
       trend: "-2.1%",
@@ -51,7 +51,7 @@ const NationalOverview = () => {
     },
     {
       name: "Mongar",
-      youth: "920",
+      youth: "950",
       engagement: 68,
       status: "Moderate",
       trend: "+2.9%",

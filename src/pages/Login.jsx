@@ -97,8 +97,8 @@ const ROLES_DATA = [
     title: "National Focal Point",
     stakeholder: "Network Coordinator",
     description:
-      "Coordinate Y-PEER networks and create and monitor national network activities.",
-    dataScope: "All Y-PEER Networks",
+      "Coordinate Youth Led Group networks and create and monitor national network activities.",
+    dataScope: "All Youth Led Group Networks",
     color: "bg-teal-600",
     lightColor: "bg-teal-50",
     textColor: "text-teal-700",
@@ -114,7 +114,7 @@ const ROLES_DATA = [
     title: "Network Focal Point",
     stakeholder: "Network Manager",
     description:
-      "Manage your Y-PEER network, approve volunteers and coordinate group activities.",
+      "Manage your Youth Led Group network, approve volunteers and coordinate group activities.",
     dataScope: "Own Network",
     color: "bg-emerald-600",
     lightColor: "bg-emerald-50",

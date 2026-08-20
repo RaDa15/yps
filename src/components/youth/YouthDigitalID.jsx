@@ -28,10 +28,10 @@ const YouthDigitalID = () => {
   const volunteer = {
     id: "YPS-2026-00124",
     name: "Tshering Pem",
-    network: "Thimphu Y-PEER Network",
+    network: "Thimphu Youth Led Group Network",
     location: "Thimphu",
     role: "Youth Volunteer",
-    memberSince: "2025",
+    memberSince: "2026",
     status: "Active",
   };
 

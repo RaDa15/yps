@@ -15,7 +15,7 @@ const REPORTS = [
     period: "July 2026",
     type: "Monthly",
     description:
-      "Consolidated Y-PEER volunteer activities, participation and contribution hours.",
+      "Consolidated Youth Led Group volunteer activities, participation and contribution hours.",
     status: "Ready",
   },
   {
@@ -27,11 +27,11 @@ const REPORTS = [
     status: "Ready",
   },
   {
-    title: "Annual Y-PEER Network Report",
+    title: "Annual Youth Led Group Network Report",
     period: "2025–2026",
     type: "Annual",
     description:
-      "Annual overview of Y-PEER networks, volunteers, activities and achievements.",
+      "Annual overview of Youth Led Group networks, volunteers, activities and achievements.",
     status: "Ready",
   },
   {

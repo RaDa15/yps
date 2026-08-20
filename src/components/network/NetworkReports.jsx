@@ -51,7 +51,7 @@ const NetworkReports = () => {
     },
     {
       id: "RPT-2025-ANNUAL",
-      title: "Annual Y-PEER Network Report 2025",
+      title: "Annual Youth Led Group Network Report 2025",
       type: "Annual",
       period: "January - December 2025",
       activities: 124,
@@ -108,7 +108,7 @@ const NetworkReports = () => {
     }
 
     const content = [
-      `Y-PEER NETWORK REPORT`,
+      `Youth Led Group NETWORK REPORT`,
       ``,
       `Report: ${report.title}`,
       `Report ID: ${report.id}`,

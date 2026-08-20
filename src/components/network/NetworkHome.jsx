@@ -45,7 +45,7 @@ const NetworkHome = () => {
 
         <div>
           <p className="text-sm text-blue-600 font-semibold">
-            Y-PEER Network Management
+            Youth Led Group Network Management
           </p>
 
           <h1 className="text-3xl font-extrabold text-gray-900 mt-1">
@@ -73,7 +73,7 @@ const NetworkHome = () => {
           </p>
 
           <h2 className="text-lg font-bold text-gray-900 mt-1">
-            Y-PEER Bhutan Network
+            Youth Led Group Bhutan Network
           </h2>
 
           <p className="text-sm text-gray-500">

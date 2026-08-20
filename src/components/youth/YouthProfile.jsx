@@ -25,10 +25,10 @@ const DEFAULT_PROFILE = {
   email: "tshering@example.com",
   phone: "+975 17XXXXXX",
   location: "Thimphu, Bhutan",
-  dateOfBirth: "15 July 2002",
+  dateOfBirth: "15 July 2005",
   gender: "Prefer not to say",
   membershipId: "YPS-2026-00124",
-  joinedDate: "12 January 2025",
+  joinedDate: "12 January 2026",
   education: "Bachelor's Degree",
   occupation: "Youth Volunteer",
   bio: "Active youth volunteer contributing to community development, youth engagement and volunteer activities.",
@@ -902,7 +902,7 @@ const YouthProfile = () => {
             </span>
 
             <span className="text-sm font-semibold text-gray-900">
-              Thimphu Y-PEER
+              Thimphu Youth Led Group
             </span>
           </div>
 
@@ -922,7 +922,7 @@ const YouthProfile = () => {
             </span>
 
             <span className="text-sm font-semibold text-gray-900">
-              Jan 2025
+              Jan 2026
             </span>
           </div>
 

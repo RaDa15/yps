@@ -15,13 +15,13 @@ import {
 import { useState } from "react";
 
 // ======================================================
-// NATIONAL Y-PEER NETWORK DATA
+// NATIONAL Youth Led Group NETWORK DATA
 // ======================================================
 
 const NATIONAL_NETWORKS = [
   {
     id: 1,
-    name: "Thimphu Y-PEER Network",
+    name: "Thimphu Youth Led Group Network",
     location: "Thimphu",
     focalPoint: "Sonam Dorji",
     volunteers: 186,
@@ -33,7 +33,7 @@ const NATIONAL_NETWORKS = [
   },
   {
     id: 2,
-    name: "Paro Y-PEER Network",
+    name: "Paro Youth Led Group Network",
     location: "Paro",
     focalPoint: "Karma Wangchuk",
     volunteers: 142,
@@ -45,7 +45,7 @@ const NATIONAL_NETWORKS = [
   },
   {
     id: 3,
-    name: "Punakha Y-PEER Network",
+    name: "Punakha Youth Led Group Network",
     location: "Punakha",
     focalPoint: "Tshering Dorji",
     volunteers: 118,
@@ -57,7 +57,7 @@ const NATIONAL_NETWORKS = [
   },
   {
     id: 4,
-    name: "Phuentsholing Y-PEER Network",
+    name: "Phuentsholing Youth Led Group Network",
     location: "Chukha",
     focalPoint: "Pema Choden",
     volunteers: 96,
@@ -69,7 +69,7 @@ const NATIONAL_NETWORKS = [
   },
   {
     id: 5,
-    name: "Mongar Y-PEER Network",
+    name: "Mongar Youth Led Group Network",
     location: "Mongar",
     focalPoint: "Kinley Wangmo",
     volunteers: 84,
@@ -81,7 +81,7 @@ const NATIONAL_NETWORKS = [
   },
   {
     id: 6,
-    name: "Bumthang Y-PEER Network",
+    name: "Bumthang Youth Led Group Network",
     location: "Bumthang",
     focalPoint: "Choki Lhamo",
     volunteers: 72,
@@ -93,7 +93,7 @@ const NATIONAL_NETWORKS = [
   },
   {
     id: 7,
-    name: "Samdrup Jongkhar Y-PEER Network",
+    name: "Samdrup Jongkhar Youth Led Group Network",
     location: "Samdrup Jongkhar",
     focalPoint: "Jigme Dorji",
     volunteers: 68,
@@ -105,7 +105,7 @@ const NATIONAL_NETWORKS = [
   },
   {
     id: 8,
-    name: "Gelephu Y-PEER Network",
+    name: "Gelephu Youth Led Group Network",
     location: "Sarpang",
     focalPoint: "Tashi Wangdi",
     volunteers: 61,
@@ -169,7 +169,7 @@ const NationalOverview = () => {
           </h1>
 
           <p className="text-sm text-gray-500 mt-1 max-w-2xl">
-            Monitor Y-PEER networks, volunteer participation and
+            Monitor Youth Led Group networks, volunteer participation and
             network-level activities across Bhutan.
           </p>
 
@@ -476,7 +476,7 @@ const NationalOverview = () => {
           <div>
 
             <h2 className="text-lg font-bold text-gray-900">
-              Registered Y-PEER Networks
+              Registered Youth Led Group Networks
             </h2>
 
             <p className="text-sm text-gray-500">
@@ -923,7 +923,7 @@ const NationalOverview = () => {
             text-gray-500
           ">
             Network statistics are synchronized with the
-            national Y-PEER coordination system.
+            national Youth Led Group coordination system.
           </p>
 
         </div>

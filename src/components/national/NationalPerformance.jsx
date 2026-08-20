@@ -10,7 +10,7 @@ import {
 
 const NETWORK_DATA = [
   {
-    name: "Thimphu Y-PEER Network",
+    name: "Thimphu Youth Led Group Network",
     volunteers: 248,
     activities: 32,
     hours: 1840,
@@ -20,7 +20,7 @@ const NETWORK_DATA = [
     status: "Excellent",
   },
   {
-    name: "Chukha Y-PEER Network",
+    name: "Chukha Youth Led Group Network",
     volunteers: 186,
     activities: 24,
     hours: 1260,
@@ -30,7 +30,7 @@ const NETWORK_DATA = [
     status: "Good",
   },
   {
-    name: "Punakha Y-PEER Network",
+    name: "Punakha Youth Led Group Network",
     volunteers: 154,
     activities: 21,
     hours: 980,
@@ -40,7 +40,7 @@ const NETWORK_DATA = [
     status: "Good",
   },
   {
-    name: "Paro Y-PEER Network",
+    name: "Paro Youth Led Group Network",
     volunteers: 132,
     activities: 18,
     hours: 840,
@@ -67,7 +67,7 @@ const NetworkPerformance = () => {
         </h1>
 
         <p className="text-sm text-gray-500 mt-1">
-          Monitor and compare Y-PEER network performance across Bhutan.
+          Monitor and compare Youth Led Group network performance across Bhutan.
         </p>
       </div>
 
@@ -236,7 +236,7 @@ const NetworkPerformance = () => {
                           </p>
 
                           <p className="text-xs text-gray-400">
-                            Y-PEER Network
+                            Youth Led Group Network
                           </p>
                         </div>
 
@@ -338,9 +338,9 @@ const NetworkPerformance = () => {
             </h3>
 
             <p className="text-sm text-gray-600 mt-1 leading-relaxed">
-              Thimphu Y-PEER Network currently leads in volunteer
+              Thimphu Youth Led Group Network currently leads in volunteer
               participation, activity engagement and contribution hours.
-              Paro Y-PEER Network shows a decline in participation and
+              Paro Youth Led Group Network shows a decline in participation and
               may require additional coordination or engagement support.
             </p>
 

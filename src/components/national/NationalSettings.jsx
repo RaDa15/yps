@@ -28,7 +28,7 @@ const NationalSettings = () => {
     role: "National Focal Point",
     email: "national.focal@yps.gov.bt",
     phone: "+975 17XXXXXX",
-    organization: "Y-PEER Bhutan",
+    organization: "Youth Led Group Bhutan",
   });
 
   const handleProfileChange = (field, value) => {

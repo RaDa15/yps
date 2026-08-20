@@ -26,9 +26,9 @@ const PENDING_VOLUNTEER_APPLICATIONS = [
 ];
 
 const GROUP_ACTIVITIES = [
-  { id: "GA-001", title: "Y-PEER Community Health Drive", date: "March 20, 2026", venue: "Thimphu Harmony YC", volunteers: 22, status: "Upcoming" },
+  { id: "GA-001", title: "Youth Led Group Community Health Drive", date: "March 20, 2026", venue: "Thimphu Harmony YC", volunteers: 22, status: "Upcoming" },
   { id: "GA-002", title: "Peer Education Session – Digital Safety", date: "March 14, 2026", venue: "Motithang YC Annex", volunteers: 18, status: "Completed" },
-  { id: "GA-003", title: "Y-PEER Campus Awareness Programme", date: "April 3, 2026", venue: "CST Phuentsholing", volunteers: 35, status: "Upcoming" },
+  { id: "GA-003", title: "Youth Led Group Campus Awareness Programme", date: "April 3, 2026", venue: "CST Phuentsholing", volunteers: 35, status: "Upcoming" },
 ];
 
 const GROUP_STATS = [
@@ -54,7 +54,7 @@ export default function NetworkFocalDashboard() {
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-bold mb-3">
                 <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                <span>Network Focal Point Scope — Y-PEER Group Manager</span>
+                <span>Network Focal Point Scope — Youth Led Group Group Manager</span>
               </div>
               <h1 className="text-3xl font-extrabold tracking-tight">Y-PEER Group Management Portal</h1>
               <p className="text-sm text-emerald-200 mt-2 max-w-xl leading-relaxed">

@@ -19,7 +19,7 @@ import {
 const stats = [
   {
     label: "Active Youth",
-    value: 12400,
+    value: 24850,
     suffix: "+",
     description: "Registered on the platform",
     icon: Users,
@@ -28,7 +28,7 @@ const stats = [
   },
   {
     label: "Programmes",
-    value: 340,
+    value: 245,
     suffix: "+",
     description: "Opportunities delivered",
     icon: CalendarCheck,
@@ -37,7 +37,7 @@ const stats = [
   },
   {
     label: "Certificates Issued",
-    value: 8900,
+    value: 15000,
     suffix: "+",
     description: "Digital achievements verified",
     icon: BadgeCheck,

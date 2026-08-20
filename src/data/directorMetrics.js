@@ -1,11 +1,11 @@
 export const directorMetrics = {
 
     // National Overview
-    registeredYouth: "12,540",
+    registeredYouth: "24,540",
 
     youthCentres: "13",
 
-    nationalVolunteers: "3,420",
+    nationalVolunteers: "18,920",
 
     activeProgrammes: "245",
 

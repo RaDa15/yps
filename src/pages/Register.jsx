@@ -50,15 +50,15 @@ const STAKEHOLDER_ROLES = [
     id: "nfp",
     title: "National Focal Point",
     stakeholder: "Network Coordinator",
-    dataScope: "All Y-PEER networks",
-    desc: "Coordinate national Y-PEER campaigns and youth network initiatives.",
+    dataScope: "All Youth Led Group networks",
+    desc: "Coordinate national Youth Led Group campaigns and youth network initiatives.",
   },
   {
     id: "net",
     title: "Network Focal Point",
     stakeholder: "Network Manager",
     dataScope: "Own network",
-    desc: "Manage local Y-PEER volunteer groups and approve activity participation.",
+    desc: "Manage local Youth Led Group volunteer groups and approve activity participation.",
   },
 ];
 

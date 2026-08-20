@@ -101,7 +101,7 @@ const programmeData = [
 const KPI_DATA = [
   {
     title: "Active Youth",
-    value: "9,820",
+    value: "18,920",
     description: "Currently engaged youth",
     change: "+12.4%",
     icon: Users,

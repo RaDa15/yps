@@ -20,7 +20,7 @@ const ACTIVITIES = [
     date: "12 Aug 2026",
     time: "09:00 AM - 03:00 PM",
     location: "Thimphu Youth Centre",
-    organizer: "Thimphu Y-PEER Network",
+    organizer: "Thimphu Youth Led Group Network",
     capacity: 40,
     registered: 32,
     requirements: "Open to registered youth volunteers",

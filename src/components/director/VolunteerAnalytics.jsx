@@ -85,7 +85,7 @@ const volunteerData = [
 const KPI_DATA = [
   {
     title: "Total Volunteers",
-    value: "3,420",
+    value: "18,920",
     description: "Registered volunteers",
     change: "+16.8%",
     icon: Users,
@@ -94,7 +94,7 @@ const KPI_DATA = [
   },
   {
     title: "Active Volunteers",
-    value: "2,850",
+    value: "15,850",
     description: "Currently contributing",
     change: "+12.4%",
     icon: HeartHandshake,
@@ -602,7 +602,7 @@ const VolunteerAnalytics = () => {
             text-gray-500
           ">
             <Users className="w-4 h-4" />
-            3,420 registered
+            24,859 registered
           </div>
 
         </div>

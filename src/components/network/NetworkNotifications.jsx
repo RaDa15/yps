@@ -37,7 +37,7 @@ const INITIAL_NOTIFICATIONS = [
     type: "info",
     title: "National activity announcement",
     message:
-      "A new national Y-PEER activity has been announced for all network focal points.",
+      "A new national Youth Led Group activity has been announced for all network focal points.",
     time: "3 hours ago",
     unread: true,
   },

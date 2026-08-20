@@ -16,7 +16,7 @@ const initialActivities = [
   {
     id: 1,
     title: "Youth Leadership Workshop",
-    network: "Y-PEER Thimphu",
+    network: "Youth Led Group Thimphu",
     location: "Thimphu",
     date: "2026-08-10",
     participants: 42,
@@ -27,7 +27,7 @@ const initialActivities = [
   {
     id: 2,
     title: "Community Health Awareness",
-    network: "Y-PEER Paro",
+    network: "Youth Led Group Paro",
     location: "Paro",
     date: "2026-08-12",
     participants: 65,
@@ -38,7 +38,7 @@ const initialActivities = [
   {
     id: 3,
     title: "Environmental Cleanup Campaign",
-    network: "Y-PEER Punakha",
+    network: "Youth Led Group Punakha",
     location: "Punakha",
     date: "2026-08-15",
     participants: 78,
@@ -49,7 +49,7 @@ const initialActivities = [
   {
     id: 4,
     title: "Peer Education Session",
-    network: "Y-PEER Chukha",
+    network: "Youth Led Group Chukha",
     location: "Chukha",
     date: "2026-08-18",
     participants: 31,
@@ -60,7 +60,7 @@ const initialActivities = [
   {
     id: 5,
     title: "Youth Volunteer Orientation",
-    network: "Y-PEER Wangdue",
+    network: "Youth Led Group Wangdue",
     location: "Wangdue",
     date: "2026-08-21",
     participants: 38,
@@ -164,7 +164,7 @@ const ActivityMonitoring = () => {
           </h1>
 
           <p className="text-sm text-gray-500 mt-1">
-            Monitor Y-PEER activities, participation and approval
+            Monitor Youth Led Group activities, participation and approval
             status across all networks.
           </p>
         </div>

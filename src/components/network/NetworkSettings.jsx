@@ -22,11 +22,11 @@ const NetworkSettings = () => {
   });
 
   const [network, setNetwork] = useState({
-    name: "Y-PEER Bhutan Network",
-    code: "YPEER-BTN-001",
+    name: "Youth Led Group Bhutan Network",
+    code: "YLG-BTN-001",
     location: "Thimphu",
     description:
-      "Youth Peer Education Network focused on youth leadership, volunteer engagement and community development.",
+      "Youth Led Group Education Network focused on youth leadership, volunteer engagement and community development.",
   });
 
   const [notifications, setNotifications] = useState({

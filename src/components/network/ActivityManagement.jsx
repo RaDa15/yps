@@ -206,7 +206,7 @@ const ActivityManagement = () => {
 
           <p className="text-sm text-gray-500 mt-2">
             Create, monitor and manage activities conducted within your
-            Y-PEER network.
+            Youth Led Group network.
           </p>
         </div>
 

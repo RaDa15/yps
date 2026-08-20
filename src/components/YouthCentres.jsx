@@ -1,11 +1,11 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
   MapPin,
-  MapPinned,
   Phone,
   Clock,
+  ChevronLeft,
   ChevronRight,
   CheckCircle2,
   XCircle,
@@ -19,8 +19,6 @@ import {
   Globe,
   Star,
   Zap,
-  ArrowUpRight,
-  Building2,
 } from "lucide-react";
 
 /* ================================================================
@@ -52,10 +50,17 @@ const ALL_DZONGKHAGS = [
   { dzongkhag: "Samtse",           available: false },
 ];
 
+/* Card order runs west -> east, so the numbering on the carousel
+   encodes real geography instead of decorating the cards.
+   `image` files live in /public/images/centres/ - if one is missing
+   the card falls back to its accent gradient, so nothing breaks. */
+
 const ALL_CENTRES = [
   {
     dzongkhag: "Thimphu",
     name: "Thimphu Youth Innovation Hub",
+    region: "Capital hub",
+    tagline: "Flagship centre & NDI pilot site",
     description:
       "A creative space for collaboration, digital skills and innovation projects for the capital's youth.",
     tags: ["Technology", "Innovation", "Fast Internet"],
@@ -64,11 +69,13 @@ const ALL_CENTRES = [
     members: 480,
     color: "blue",
     icons: [Cpu, Wifi],
-    featured: true,
+    image: `${import.meta.env.BASE_URL}images/centres/thimphu.jpg`,
   },
   {
     dzongkhag: "Paro",
     name: "Paro Makerspace",
+    region: "Western hub",
+    tagline: "Arts & heritage focus",
     description:
       "Combining traditional Bhutanese creativity with modern design thinking and immersive VR labs.",
     tags: ["Design Studio", "VR Lab", "Crafts"],
@@ -77,11 +84,13 @@ const ALL_CENTRES = [
     members: 210,
     color: "emerald",
     icons: [Palette, BookOpen],
-    featured: true,
+    image: `${import.meta.env.BASE_URL}images/centres/paro.jpg`,
   },
   {
     dzongkhag: "Punakha",
     name: "Punakha Youth Centre",
+    region: "Central hub",
+    tagline: "Volunteering & farming projects",
     description:
       "Supporting youth through learning, sports and vibrant community development activities.",
     tags: ["Training", "Sports", "Community"],
@@ -90,24 +99,13 @@ const ALL_CENTRES = [
     members: 175,
     color: "amber",
     icons: [Dumbbell, Users],
-    featured: true,
-  },
-  {
-    dzongkhag: "Haa",
-    name: "Haa Youth Hub",
-    description:
-      "A rural youth hub championing skills development, cultural preservation and wellness.",
-    tags: ["Skills", "Culture", "Wellness"],
-    phone: "+975-8-376541",
-    hours: "Mon–Fri, 9AM–4PM",
-    members: 88,
-    color: "purple",
-    icons: [BookOpen, Palette],
-    featured: true,
+    image: `${import.meta.env.BASE_URL}images/centres/punakha.jpg`,
   },
   {
     dzongkhag: "Wangdue Phodrang",
     name: "Wangdue Youth Centre",
+    region: "Central hub",
+    tagline: "Sports & wellness track",
     description:
       "Empowering rural youth with vocational training and digital literacy programmes.",
     tags: ["Vocational", "Digital Skills", "Arts"],
@@ -116,11 +114,13 @@ const ALL_CENTRES = [
     members: 130,
     color: "blue",
     icons: [Cpu, Globe],
-    featured: false,
+    image: `${import.meta.env.BASE_URL}images/centres/wangdue.jpg`,
   },
   {
     dzongkhag: "Bumthang",
     name: "Bumthang Cultural Youth Centre",
+    region: "Central hub",
+    tagline: "Cultural heritage programmes",
     description:
       "Connecting youth with Bhutan's rich cultural heritage through arts and modern programmes.",
     tags: ["Culture", "Heritage", "Arts"],
@@ -129,11 +129,28 @@ const ALL_CENTRES = [
     members: 112,
     color: "emerald",
     icons: [Palette, Star],
-    featured: false,
+    image:`${import.meta.env.BASE_URL}images/centres/bumthang.jpg`,
+  },
+  {
+    dzongkhag: "Haa",
+    name: "Haa Youth Hub",
+    region: "Western hub",
+    tagline: "Rural skills & wellness",
+    description:
+      "A rural youth hub championing skills development, cultural preservation and wellness.",
+    tags: ["Skills", "Culture", "Wellness"],
+    phone: "+975-8-376541",
+    hours: "Mon–Fri, 9AM–4PM",
+    members: 88,
+    color: "purple",
+    icons: [BookOpen, Palette],
+    image:`${import.meta.env.BASE_URL}images/centres/haa.jpg`,
   },
   {
     dzongkhag: "Trongsa",
     name: "Trongsa Youth Hub",
+    region: "Central hub",
+    tagline: "Leadership & youth sports",
     description:
       "A multipurpose centre for leadership training, skill-building and youth sports.",
     tags: ["Leadership", "Skills", "Sports"],
@@ -142,11 +159,13 @@ const ALL_CENTRES = [
     members: 95,
     color: "amber",
     icons: [Zap, Dumbbell],
-    featured: false,
+    image:`${import.meta.env.BASE_URL}images/centres/trongsa.jpg`,
   },
   {
     dzongkhag: "Chukha",
     name: "Chukha Youth Centre",
+    region: "Southern hub",
+    tagline: "Enterprise & trade skills",
     description:
       "Supporting youth near the border with technology and entrepreneurship opportunities.",
     tags: ["Entrepreneurship", "Tech", "Community"],
@@ -155,11 +174,13 @@ const ALL_CENTRES = [
     members: 142,
     color: "purple",
     icons: [Cpu, Globe],
-    featured: false,
+    image: `${import.meta.env.BASE_URL}images/centres/chhukha.jpg`,
   },
   {
     dzongkhag: "Dagana",
     name: "Dagana Youth Hub",
+    region: "Southern hub",
+    tagline: "Traditional arts & training",
     description:
       "A community hub focused on wellness, traditional arts and vocational training.",
     tags: ["Wellness", "Arts", "Vocational"],
@@ -168,11 +189,13 @@ const ALL_CENTRES = [
     members: 78,
     color: "blue",
     icons: [BookOpen, Palette],
-    featured: false,
+    image: `${import.meta.env.BASE_URL}images/centres/dagana.jpg`,
   },
   {
     dzongkhag: "Sarpang",
     name: "Sarpang Youth Hub",
+    region: "Southern hub",
+    tagline: "Digital literacy & start-ups",
     description:
       "Offering digital literacy and entrepreneurship support to southern Bhutan youth.",
     tags: ["Digital Literacy", "Entrepreneurship", "Sports"],
@@ -181,11 +204,13 @@ const ALL_CENTRES = [
     members: 160,
     color: "emerald",
     icons: [Cpu, Users],
-    featured: false,
+    image: `${import.meta.env.BASE_URL}images/centres/sarpang.jpg`,
   },
   {
     dzongkhag: "Mongar",
     name: "Mongar Youth Centre",
+    region: "Eastern hub",
+    tagline: "Digital skills & wellness",
     description:
       "Bridging eastern Bhutan youth with modern skills, digital tools and wellness resources.",
     tags: ["Digital Skills", "Wellness", "Community"],
@@ -194,11 +219,13 @@ const ALL_CENTRES = [
     members: 103,
     color: "amber",
     icons: [Globe, BookOpen],
-    featured: false,
+    image: `${import.meta.env.BASE_URL}images/centres/mongar.jpg`,
   },
   {
     dzongkhag: "Trashigang",
     name: "Trashigang Youth Hub",
+    region: "Eastern hub",
+    tagline: "Innovation & youth leadership",
     description:
       "The gateway hub for eastern Bhutan — focusing on innovation, culture and youth leadership.",
     tags: ["Innovation", "Culture", "Leadership"],
@@ -207,17 +234,17 @@ const ALL_CENTRES = [
     members: 134,
     color: "purple",
     icons: [Zap, Star],
-    featured: false,
+    image: `${import.meta.env.BASE_URL}images/centres/trashigang.jpg`,
   },
 ];
 
-const FEATURED = ALL_CENTRES.filter((c) => c.featured);
 const ACTIVE_COUNT = ALL_CENTRES.length;
 const PLANNED_COUNT = ALL_DZONGKHAGS.filter((d) => !d.available).length;
 
 /* ================================================================
    ACCENT TOKENS — same four families used in Impact.jsx
    (blue / emerald / amber / purple, -50 surface + -600 icon)
+   `photo` is the fallback wash shown when a card has no image yet.
 ================================================================= */
 
 const COLORS = {
@@ -227,7 +254,7 @@ const COLORS = {
     badge: "border-blue-200 bg-blue-50 text-blue-700",
     dot: "bg-blue-500",
     ring: "ring-blue-100",
-    border: "border-blue-200",
+    photo: "bg-gradient-to-br from-blue-500 via-blue-700 to-indigo-900",
   },
   emerald: {
     bg: "bg-emerald-50",
@@ -235,7 +262,7 @@ const COLORS = {
     badge: "border-emerald-200 bg-emerald-50 text-emerald-700",
     dot: "bg-emerald-500",
     ring: "ring-emerald-100",
-    border: "border-emerald-200",
+    photo: "bg-gradient-to-br from-emerald-500 via-emerald-700 to-teal-900",
   },
   amber: {
     bg: "bg-amber-50",
@@ -243,7 +270,7 @@ const COLORS = {
     badge: "border-amber-200 bg-amber-50 text-amber-700",
     dot: "bg-amber-500",
     ring: "ring-amber-100",
-    border: "border-amber-200",
+    photo: "bg-gradient-to-br from-amber-400 via-orange-600 to-amber-900",
   },
   purple: {
     bg: "bg-purple-50",
@@ -251,19 +278,20 @@ const COLORS = {
     badge: "border-purple-200 bg-purple-50 text-purple-700",
     dot: "bg-purple-500",
     ring: "ring-purple-100",
-    border: "border-purple-200",
+    photo: "bg-gradient-to-br from-purple-500 via-purple-700 to-indigo-900",
   },
 };
 
-const MAP_EMBED_URL =
-  "https://www.openstreetmap.org/export/embed.html?bbox=88.7%2C26.7%2C92.2%2C28.3&layer=mapnik";
+const pad = (n) => String(n).padStart(2, "0");
 
 /* ================================================================
-   MODAL — all active centres
+   CENTRE DETAIL — opens when a carousel card is selected
 ================================================================= */
 
-const AllCentresModal = ({ onClose }) => {
-  const [modalQuery, setModalQuery] = useState("");
+const CentreDetailModal = ({ centre, onClose }) => {
+  const c = COLORS[centre.color] || COLORS.blue;
+  const Icon1 = centre.icons[0];
+  const Icon2 = centre.icons[1];
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -280,17 +308,6 @@ const AllCentresModal = ({ onClose }) => {
     return () => window.removeEventListener("keydown", handler);
   }, [onClose]);
 
-  const q = modalQuery.trim().toLowerCase();
-
-  const filtered = q
-    ? ALL_CENTRES.filter(
-        (c) =>
-          c.dzongkhag.toLowerCase().includes(q) ||
-          c.name.toLowerCase().includes(q) ||
-          c.tags.some((t) => t.toLowerCase().includes(q))
-      )
-    : ALL_CENTRES;
-
   return (
     <motion.div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
@@ -299,9 +316,8 @@ const AllCentresModal = ({ onClose }) => {
       exit={{ opacity: 0 }}
       role="dialog"
       aria-modal="true"
-      aria-label="All youth centres"
+      aria-label={centre.name}
     >
-      {/* Backdrop */}
       <motion.div
         className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm"
         initial={{ opacity: 0 }}
@@ -310,296 +326,96 @@ const AllCentresModal = ({ onClose }) => {
         onClick={onClose}
       />
 
-      {/* Panel */}
       <motion.div
-        className="
-          relative
-          z-10
-          flex
-          max-h-[88vh]
-          w-full
-          max-w-5xl
-          flex-col
-          overflow-hidden
-          rounded-2xl
-          border
-          border-gray-200
-          bg-white
-          shadow-xl
-        "
+        className="relative z-10 w-full max-w-md overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-xl"
         initial={{ opacity: 0, scale: 0.97, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.97, y: 15 }}
         transition={{ duration: 0.25 }}
       >
-        {/* Header */}
-        <div
-          className="
-            flex
-            flex-shrink-0
-            items-start
-            justify-between
-            gap-4
-            border-b
-            border-blue-100
-            bg-gradient-to-r
-            from-blue-50
-            via-white
-            to-indigo-50
-            p-4
-            md:p-5
-          "
-        >
-          <div className="flex items-start gap-3">
-            <div
-              className="
-                flex
-                h-10
-                w-10
-                shrink-0
-                items-center
-                justify-center
-                rounded-xl
-                bg-white
-                shadow-sm
-              "
-            >
-              <MapPinned className="h-5 w-5 text-blue-600" />
-            </div>
-
-            <div>
-              <p className="text-[10px] font-bold uppercase tracking-wider text-blue-600">
-                Centre Directory
-              </p>
-
-              <h3 className="mt-0.5 text-sm font-bold text-gray-900 md:text-base">
-                All {ACTIVE_COUNT} active youth centres
-              </h3>
-
-              <p className="mt-1 text-xs leading-relaxed text-gray-500">
-                Open across {ACTIVE_COUNT} Dzongkhags, with {PLANNED_COUNT} more
-                planned.
-              </p>
-            </div>
-          </div>
+        {/* Photo band */}
+        <div className="relative h-36">
+          <div className={`absolute inset-0 ${c.photo}`} />
+          <img
+            src={centre.image}
+            alt=""
+            loading="lazy"
+            onError={(e) => {
+              e.currentTarget.style.display = "none";
+            }}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/25 to-transparent" />
 
           <button
             onClick={onClose}
-            aria-label="Close directory"
-            className="
-              flex
-              h-9
-              w-9
-              shrink-0
-              items-center
-              justify-center
-              rounded-xl
-              border
-              border-gray-200
-              bg-white
-              text-gray-400
-              shadow-sm
-              transition-colors
-              hover:border-blue-200
-              hover:text-blue-600
-            "
+            aria-label="Close centre details"
+            className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-xl bg-white/90 text-gray-500 shadow-sm backdrop-blur-sm transition-colors hover:text-blue-600"
           >
             <X className="h-4 w-4" />
           </button>
+
+          <div className="absolute bottom-4 left-5 right-5">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/70">
+              {centre.region}
+            </p>
+            <h3 className="mt-1 text-lg font-bold leading-tight text-white">
+              {centre.name}
+            </h3>
+          </div>
         </div>
 
-        {/* Filter */}
-        <div className="flex-shrink-0 border-b border-gray-100 px-4 py-3 md:px-5">
-          <div className="relative">
-            <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+        {/* Body */}
+        <div className="p-5">
+          <div className="flex items-center gap-2">
+            <div className={`flex h-9 w-9 items-center justify-center rounded-xl ${c.bg}`}>
+              <Icon1 size={18} className={c.text} />
+            </div>
+            <div className={`flex h-9 w-9 items-center justify-center rounded-xl ${c.bg} opacity-60`}>
+              <Icon2 size={16} className={c.text} />
+            </div>
 
-            <input
-              type="text"
-              value={modalQuery}
-              onChange={(e) => setModalQuery(e.target.value)}
-              placeholder="Filter by Dzongkhag, name or focus area"
-              autoFocus
-              className="
-                w-full
-                rounded-xl
-                border
-                border-gray-200
-                bg-slate-50
-                py-2.5
-                pl-10
-                pr-9
-                text-sm
-                text-gray-800
-                outline-none
-                transition
-                placeholder:text-gray-400
-                focus:border-blue-300
-                focus:bg-white
-              "
-            />
-
-            {modalQuery && (
-              <button
-                onClick={() => setModalQuery("")}
-                aria-label="Clear filter"
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 transition-colors hover:text-gray-600"
-              >
-                <X className="h-3.5 w-3.5" />
-              </button>
-            )}
+            <span
+              className={`ml-auto rounded-full border px-2.5 py-0.5 text-[10px] font-bold ${c.badge}`}
+            >
+              {centre.dzongkhag}
+            </span>
           </div>
 
-          <p className="mt-2 text-[10px] text-gray-400 md:text-xs">
-            Showing {filtered.length} of {ACTIVE_COUNT} centres
+          <p className="mt-3 text-xs leading-relaxed text-gray-500 md:text-sm">
+            {centre.description}
           </p>
-        </div>
 
-        {/* Cards */}
-        <div className="flex-1 overflow-y-auto p-4 md:p-5">
-          {filtered.length === 0 ? (
-            <div className="py-14 text-center">
-              <p className="text-sm font-bold text-gray-800">
-                No centres match that filter
-              </p>
-              <p className="mt-1 text-xs text-gray-400">
-                Try a Dzongkhag name such as Mongar, or a focus area such as
-                Sports.
-              </p>
-              <button
-                onClick={() => setModalQuery("")}
-                className="mt-3 text-xs font-bold text-blue-600 hover:text-blue-700"
+          <div className="mt-3 flex flex-wrap gap-1">
+            {centre.tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full border border-gray-100 bg-slate-50 px-2 py-0.5 text-[10px] font-medium text-gray-500"
               >
-                Clear filter
-              </button>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 md:gap-4">
-              {filtered.map((centre, index) => {
-                const c = COLORS[centre.color] || COLORS.blue;
-                const Icon1 = centre.icons[0];
-                const Icon2 = centre.icons[1];
+                {tag}
+              </span>
+            ))}
+          </div>
 
-                return (
-                  <motion.div
-                    key={centre.dzongkhag}
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: index * 0.06 }}
-                    className="
-                      group
-                      rounded-2xl
-                      border
-                      border-gray-200
-                      bg-white
-                      p-4
-                      shadow-sm
-                      transition-all
-                      duration-300
-                      hover:-translate-y-1
-                      hover:border-blue-200
-                      hover:shadow-md
-                      md:p-5
-                    "
-                  >
-                    {/* Icons */}
-                    <div className="flex items-start justify-between">
-                      <div
-                        className={`
-                          flex
-                          h-10
-                          w-10
-                          items-center
-                          justify-center
-                          rounded-xl
-                          ${c.bg}
-                          transition-transform
-                          duration-300
-                          group-hover:scale-105
-                        `}
-                      >
-                        <Icon1 size={20} className={c.text} />
-                      </div>
+          <div className="mt-4 space-y-1.5 border-t border-gray-100 pt-4">
+            <p className="flex items-center gap-2 text-xs text-gray-500">
+              <Users className={`h-3.5 w-3.5 ${c.text}`} />
+              {centre.members} members
+            </p>
+            <p className="flex items-center gap-2 text-xs text-gray-500">
+              <Phone className={`h-3.5 w-3.5 ${c.text}`} />
+              {centre.phone}
+            </p>
+            <p className="flex items-center gap-2 text-xs text-gray-500">
+              <Clock className={`h-3.5 w-3.5 ${c.text}`} />
+              {centre.hours}
+            </p>
+          </div>
 
-                      <div
-                        className={`flex h-8 w-8 items-center justify-center rounded-lg ${c.bg} opacity-60`}
-                      >
-                        <Icon2 size={15} className={c.text} />
-                      </div>
-                    </div>
-
-                    {/* Dzongkhag */}
-                    <span
-                      className={`mt-4 inline-block rounded-full border px-2.5 py-0.5 text-[10px] font-bold ${c.badge}`}
-                    >
-                      {centre.dzongkhag}
-                    </span>
-
-                    {/* Name */}
-                    <h4 className="mt-2 text-xs font-bold leading-snug text-gray-800 md:text-sm">
-                      {centre.name}
-                    </h4>
-
-                    {/* Description */}
-                    <p className="mt-1 text-[10px] leading-relaxed text-gray-400 md:text-xs">
-                      {centre.description}
-                    </p>
-
-                    {/* Tags */}
-                    <div className="mt-3 flex flex-wrap gap-1">
-                      {centre.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-full border border-gray-100 bg-slate-50 px-2 py-0.5 text-[10px] font-medium text-gray-500"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Details */}
-                    <div className="mt-3 space-y-1 border-t border-gray-100 pt-3">
-                      <p className="flex items-center gap-2 text-[10px] text-gray-500 md:text-xs">
-                        <Users className={`h-3 w-3 ${c.text}`} />
-                        {centre.members} members
-                      </p>
-                      <p className="flex items-center gap-2 text-[10px] text-gray-500 md:text-xs">
-                        <Phone className={`h-3 w-3 ${c.text}`} />
-                        {centre.phone}
-                      </p>
-                      <p className="flex items-center gap-2 text-[10px] text-gray-500 md:text-xs">
-                        <Clock className={`h-3 w-3 ${c.text}`} />
-                        {centre.hours}
-                      </p>
-                    </div>
-
-                    {/* Status */}
-                    <div className="mt-3 flex items-center gap-1.5">
-                      <span
-                        className={`inline-block h-1.5 w-1.5 rounded-full ${c.dot}`}
-                      />
-                      <span className="text-[10px] font-bold text-gray-500">
-                        Open now
-                      </span>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-
-        {/* Footer */}
-        <div className="flex flex-shrink-0 items-center justify-between gap-4 border-t border-gray-100 bg-slate-50 px-4 py-3 md:px-5">
-          <p className="text-[10px] text-gray-500 md:text-xs">
-            {ACTIVE_COUNT} centres open · {PLANNED_COUNT} planned across Bhutan
-          </p>
-
-          <button
-            onClick={onClose}
-            className="rounded-xl bg-blue-600 px-4 py-2 text-xs font-bold text-white transition-colors hover:bg-blue-700"
-          >
-            Close
-          </button>
+          <div className="mt-4 flex items-center gap-1.5">
+            <span className={`inline-block h-1.5 w-1.5 rounded-full ${c.dot}`} />
+            <span className="text-[10px] font-bold text-gray-500">Open now</span>
+          </div>
         </div>
       </motion.div>
     </motion.div>
@@ -613,9 +429,76 @@ const AllCentresModal = ({ onClose }) => {
 const YouthCentres = () => {
   const [query, setQuery] = useState("");
   const [searchResult, setSearchResult] = useState(null);
-  const [expanded, setExpanded] = useState(null);
-  const [showModal, setShowModal] = useState(false);
+  const [detail, setDetail] = useState(null);
+
   const inputRef = useRef(null);
+  const trackRef = useRef(null);
+  const cardRefs = useRef([]);
+
+  const [rail, setRail] = useState({
+    ratio: 0,
+    thumb: 0.35,
+    atStart: true,
+    atEnd: false,
+  });
+
+  /* ---- carousel scroll state ---- */
+
+  const readRail = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+
+    const max = el.scrollWidth - el.clientWidth;
+
+    setRail({
+      ratio: max > 0 ? el.scrollLeft / max : 0,
+      thumb: el.scrollWidth > 0 ? el.clientWidth / el.scrollWidth : 1,
+      atStart: el.scrollLeft <= 4,
+      atEnd: max <= 0 || el.scrollLeft >= max - 4,
+    });
+  }, []);
+
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+
+    readRail();
+    el.addEventListener("scroll", readRail, { passive: true });
+    window.addEventListener("resize", readRail);
+
+    return () => {
+      el.removeEventListener("scroll", readRail);
+      window.removeEventListener("resize", readRail);
+    };
+  }, [readRail]);
+
+  const behavior = () =>
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ? "auto"
+      : "smooth";
+
+  /* Advance by a full row of visible cards, not one card at a time */
+  const step = (direction) => {
+    const el = trackRef.current;
+    const card = cardRefs.current[0];
+    if (!el || !card) return;
+
+    const stride = card.offsetWidth + 14;
+    const perView = Math.max(1, Math.round(el.clientWidth / stride));
+
+    el.scrollBy({ left: direction * stride * perView, behavior: behavior() });
+  };
+
+  const scrollToCentre = (dzongkhag) => {
+    const el = trackRef.current;
+    const index = ALL_CENTRES.findIndex((c) => c.dzongkhag === dzongkhag);
+    const card = cardRefs.current[index];
+    if (!el || !card) return;
+
+    el.scrollTo({ left: card.offsetLeft - el.offsetLeft - 4, behavior: behavior() });
+  };
+
+  /* ---- search ---- */
 
   const handleSearch = (val) => {
     setQuery(val);
@@ -630,22 +513,21 @@ const YouthCentres = () => {
     );
 
     if (match) {
-      const featured = FEATURED.find((f) => f.dzongkhag === match.dzongkhag);
+      const centre = ALL_CENTRES.find((c) => c.dzongkhag === match.dzongkhag);
       setSearchResult({
         found: match.available,
         dzongkhag: match.dzongkhag,
-        featured,
+        centre,
       });
-      if (featured) setExpanded(featured.dzongkhag);
+      if (centre) scrollToCentre(centre.dzongkhag);
     } else {
-      setSearchResult({ found: false, dzongkhag: null, featured: null });
+      setSearchResult({ found: false, dzongkhag: null, centre: null });
     }
   };
 
   const clearSearch = () => {
     setQuery("");
     setSearchResult(null);
-    setExpanded(null);
     inputRef.current?.focus();
   };
 
@@ -668,35 +550,10 @@ const YouthCentres = () => {
       >
         {/* Background glow */}
 
-        <div
-          className="
-            pointer-events-none
-            absolute
-            -left-32
-            top-0
-            h-72
-            w-72
-            rounded-full
-            bg-blue-400/10
-            blur-3xl
-          "
-        />
+        <div className="pointer-events-none absolute -left-32 top-0 h-72 w-72 rounded-full bg-blue-400/10 blur-3xl" />
+        <div className="pointer-events-none absolute -right-32 bottom-0 h-72 w-72 rounded-full bg-indigo-400/10 blur-3xl" />
 
-        <div
-          className="
-            pointer-events-none
-            absolute
-            -right-32
-            bottom-0
-            h-72
-            w-72
-            rounded-full
-            bg-indigo-400/10
-            blur-3xl
-          "
-        />
-
-        {/* Main container */}
+        {/* Header + search stay inside the container */}
 
         <div className="relative z-10 mx-auto max-w-6xl px-5 md:px-8">
 
@@ -705,14 +562,12 @@ const YouthCentres = () => {
           ================================= */}
 
           <motion.div
-            className="mx-auto mb-7 max-w-3xl text-center"
+            className="mx-auto mb-6 max-w-3xl text-center"
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.45 }}
           >
-            {/* Badge */}
-
             <div
               className="
                 mb-2
@@ -731,37 +586,14 @@ const YouthCentres = () => {
               "
             >
               <MapPin className="h-3.5 w-3.5" />
-
               <span>{ACTIVE_COUNT} Active Centres Across Bhutan</span>
             </div>
 
-            {/* Heading */}
-
-            <h2
-              className="
-                text-3xl
-                font-extrabold
-                tracking-tight
-                text-blue-950
-                md:text-4xl
-              "
-            >
+            <h2 className="text-3xl font-extrabold tracking-tight text-blue-950 md:text-4xl">
               Find a Youth Centre
             </h2>
 
-            {/* Description */}
-
-            <p
-              className="
-                mx-auto
-                mt-2
-                max-w-2xl
-                text-sm
-                leading-relaxed
-                text-gray-500
-                md:text-base
-              "
-            >
+            <p className="mx-auto mt-2 max-w-2xl text-sm leading-relaxed text-gray-500 md:text-base">
               Search your Dzongkhag to see whether a youth centre is open near
               you, and what it offers.
             </p>
@@ -772,7 +604,7 @@ const YouthCentres = () => {
           ================================= */}
 
           <motion.div
-            className="mx-auto mb-4 max-w-xl"
+            className="mx-auto mb-5 max-w-xl"
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -819,6 +651,35 @@ const YouthCentres = () => {
               )}
             </div>
 
+            {/* Quick search chips */}
+            <div className="mt-3 flex flex-wrap justify-center gap-1.5">
+              {["Thimphu", "Paro", "Punakha", "Haa", "Gasa", "Mongar", "Trashigang"].map(
+                (d) => (
+                  <button
+                    key={d}
+                    onClick={() => handleSearch(d)}
+                    className={`
+                      rounded-full
+                      border
+                      px-3
+                      py-1
+                      text-[10px]
+                      font-bold
+                      transition-colors
+                      md:text-xs
+                      ${
+                        query === d
+                          ? "border-blue-600 bg-blue-600 text-white"
+                          : "border-gray-200 bg-white text-gray-500 hover:border-blue-200 hover:text-blue-700"
+                      }
+                    `}
+                  >
+                    {d}
+                  </button>
+                )
+              )}
+            </div>
+
             <AnimatePresence mode="wait">
               {searchResult && (
                 <motion.div
@@ -855,9 +716,15 @@ const YouthCentres = () => {
                           A youth centre is open in {searchResult.dzongkhag}
                         </p>
 
-                        {searchResult.featured && (
+                        {searchResult.centre && (
                           <p className="mt-1 text-[10px] leading-relaxed text-gray-500 md:text-xs">
-                            {searchResult.featured.name}
+                            {searchResult.centre.name} — card{" "}
+                            {pad(
+                              ALL_CENTRES.findIndex(
+                                (c) => c.dzongkhag === searchResult.dzongkhag
+                              ) + 1
+                            )}{" "}
+                            in the carousel below
                           </p>
                         )}
                       </>
@@ -881,384 +748,251 @@ const YouthCentres = () => {
               )}
             </AnimatePresence>
           </motion.div>
+        </div>
 
-          {/* ================================
-              MAP + FEATURED CENTRES
-          ================================= */}
+        {/* ================================
+            CAROUSEL — one row, four columns on desktop
+        ================================= */}
 
-          <div className="grid grid-cols-1 items-start gap-3 md:gap-4 lg:grid-cols-2">
+        <motion.div
+          className="relative z-10 mx-auto max-w-6xl px-5 md:px-8"
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          {/* Rail wrapper — the arrows sit on the left and right edges */}
+          <div className="relative">
 
-            {/* MAP */}
-
-            <motion.div
+            {/* Previous */}
+            <button
+              type="button"
+              onClick={() => step(-1)}
+              disabled={rail.atStart}
+              aria-label="Previous centres"
               className="
-                overflow-hidden
-                rounded-2xl
+                absolute
+                left-0
+                top-1/2
+                z-20
+                flex
+                h-9
+                w-9
+                -translate-x-1/2
+                -translate-y-1/2
+                items-center
+                justify-center
+                rounded-full
                 border
                 border-gray-200
                 bg-white
-                shadow-sm
+                text-gray-600
+                shadow-md
+                transition-all
+                hover:border-blue-200
+                hover:text-blue-600
+                disabled:cursor-not-allowed
+                disabled:opacity-0
+                focus:outline-none
+                focus-visible:ring-2
+                focus-visible:ring-blue-400
+                md:h-11
+                md:w-11
               "
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.45 }}
             >
-              <div className="flex items-center justify-between gap-3 border-b border-gray-100 p-4 md:p-5">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50">
-                    <MapPinned className="h-5 w-5 text-blue-600" />
-                  </div>
+              <ChevronLeft className="h-4 w-4 md:h-5 md:w-5" />
+            </button>
 
-                  <div>
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-blue-600">
-                      National Map
+            {/* Next */}
+            <button
+              type="button"
+              onClick={() => step(1)}
+              disabled={rail.atEnd}
+              aria-label="Next centres"
+              className="
+                absolute
+                right-0
+                top-1/2
+                z-20
+                flex
+                h-9
+                w-9
+                -translate-y-1/2
+                translate-x-1/2
+                items-center
+                justify-center
+                rounded-full
+                border
+                border-gray-200
+                bg-white
+                text-gray-600
+                shadow-md
+                transition-all
+                hover:border-blue-200
+                hover:text-blue-600
+                disabled:cursor-not-allowed
+                disabled:opacity-0
+                focus:outline-none
+                focus-visible:ring-2
+                focus-visible:ring-blue-400
+                md:h-11
+                md:w-11
+              "
+            >
+              <ChevronRight className="h-4 w-4 md:h-5 md:w-5" />
+            </button>
+
+            <div
+              ref={trackRef}
+              role="region"
+              aria-label="Youth centres carousel"
+              tabIndex={0}
+              className="
+                flex
+                snap-x
+                snap-mandatory
+                gap-3.5
+                overflow-x-auto
+                scroll-smooth
+                pb-1
+                [scrollbar-width:none]
+                [&::-webkit-scrollbar]:hidden
+                focus:outline-none
+                focus-visible:rounded-3xl
+                focus-visible:ring-2
+                focus-visible:ring-blue-400
+              "
+            >
+            {ALL_CENTRES.map((centre, index) => {
+              const c = COLORS[centre.color] || COLORS.blue;
+              const isHighlighted =
+                searchResult?.found && searchResult.dzongkhag === centre.dzongkhag;
+
+              return (
+                <button
+                  key={centre.dzongkhag}
+                  type="button"
+                  ref={(el) => (cardRefs.current[index] = el)}
+                  onClick={() => setDetail(centre)}
+                  aria-label={`${centre.name}, ${centre.region}`}
+                  className={`
+                    group
+                    relative
+                    aspect-[3/4]
+                    w-[70%]
+                    shrink-0
+                    snap-start
+                    overflow-hidden
+                    rounded-3xl
+                    text-left
+                    shadow-sm
+                    transition-all
+                    duration-300
+                    hover:-translate-y-1
+                    hover:shadow-lg
+                    focus:outline-none
+                    focus-visible:ring-2
+                    focus-visible:ring-blue-500
+                    focus-visible:ring-offset-2
+                    sm:w-[calc((100%-0.875rem)/2)]
+                    md:w-[calc((100%-1.75rem)/3)]
+                    lg:w-[calc((100%-2.625rem)/4)]
+                    ${isHighlighted ? `ring-4 ${c.ring} shadow-lg` : ""}
+                  `}
+                >
+                  {/* Fallback wash, then the photo on top of it */}
+                  <div className={`absolute inset-0 ${c.photo}`} />
+
+                  <img
+                    src={centre.image}
+                    alt=""
+                    loading="lazy"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
+                    className="
+                      absolute
+                      inset-0
+                      h-full
+                      w-full
+                      object-cover
+                      transition-transform
+                      duration-700
+                      group-hover:scale-105
+                      motion-reduce:transition-none
+                      motion-reduce:group-hover:scale-100
+                    "
+                  />
+
+                  {/* Legibility scrim */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/35 to-transparent" />
+
+                  {/* Open-now pip */}
+                  <span className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-white/100 px-2 py-0.5 backdrop-blur-sm">
+                    <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                    <span className="text-[10px] font-bold text-black">Open</span>
+                  </span>
+
+                  {/* Caption */}
+                  <div className="absolute inset-x-0 bottom-0 p-4">
+                    <p className="font-mono text-[10px] tracking-[0.14em] text-white/70">
+                      {pad(index + 1)} · {centre.region}
                     </p>
 
-                    <h3 className="mt-0.5 text-sm font-bold text-gray-900 md:text-base">
-                      Youth centres across Bhutan
+                    <h3 className="mt-1 text-base font-bold tracking-tight text-white md:text-lg">
+                      {centre.dzongkhag}
                     </h3>
-                  </div>
-                </div>
 
-                <a
-                  href="https://www.openstreetmap.org/#map=8/27.5/90.4"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex shrink-0 items-center gap-1 text-[10px] font-bold text-gray-500 transition-colors hover:text-blue-600 md:text-xs"
-                >
-                  Open full map
-                  <ArrowUpRight className="h-3.5 w-3.5 text-gray-300 transition-colors group-hover:text-blue-500" />
-                </a>
-              </div>
+                    <p className="mt-0.5 text-[11px] leading-snug text-white/75 md:text-xs">
+                      {centre.tagline}
+                    </p>
 
-              <div className="relative h-[320px] md:h-[360px]">
-                <iframe
-                  title="Bhutan youth centres map"
-                  src={MAP_EMBED_URL}
-                  style={{ width: "100%", height: "100%", border: "none" }}
-                  allowFullScreen
-                  loading="lazy"
-                />
-
-                <div className="absolute bottom-3 left-3 rounded-xl border border-gray-100 bg-white/90 px-3 py-2 shadow-sm backdrop-blur-sm">
-                  <div className="flex items-center gap-2 text-[10px] font-bold text-gray-500 md:text-xs">
-                    <span className="inline-block h-1.5 w-1.5 rounded-full bg-blue-500" />
-                    <span>{ACTIVE_COUNT} open</span>
-                    <span className="text-gray-200">|</span>
-                    <span className="inline-block h-1.5 w-1.5 rounded-full bg-gray-300" />
-                    <span>{PLANNED_COUNT} planned</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="border-t border-gray-100 p-4 md:p-5">
-                <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">
-                  Quick search
-                </p>
-
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {["Thimphu", "Paro", "Punakha", "Haa", "Gasa", "Mongar", "Trashigang"].map(
-                    (d) => (
-                      <button
-                        key={d}
-                        onClick={() => handleSearch(d)}
-                        className={`
-                          rounded-full
-                          border
-                          px-3
-                          py-1
-                          text-[10px]
-                          font-bold
-                          transition-colors
-                          md:text-xs
-                          ${
-                            query === d
-                              ? "border-blue-600 bg-blue-600 text-white"
-                              : "border-gray-200 bg-white text-gray-500 hover:border-blue-200 hover:text-blue-700"
-                          }
-                        `}
-                      >
-                        {d}
-                      </button>
-                    )
-                  )}
-                </div>
-              </div>
-            </motion.div>
-
-            {/* FEATURED CARDS */}
-
-            <div>
-              <motion.div
-                className="mb-3 flex items-end justify-between"
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4 }}
-              >
-                <div>
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-blue-600">
-                    Featured
-                  </p>
-
-                  <h3 className="mt-0.5 text-sm font-bold text-gray-900 md:text-base">
-                    Centres to know
-                  </h3>
-                </div>
-
-                <span className="text-[10px] text-gray-400 md:text-xs">
-                  {FEATURED.length} of {ACTIVE_COUNT}
-                </span>
-              </motion.div>
-
-              <div className="grid grid-cols-2 gap-3 md:gap-4">
-                {FEATURED.map((centre, index) => {
-                  const c = COLORS[centre.color];
-                  const isHighlighted =
-                    searchResult?.found &&
-                    searchResult.dzongkhag === centre.dzongkhag;
-                  const isExpanded = expanded === centre.dzongkhag;
-                  const Icon1 = centre.icons[0];
-                  const Icon2 = centre.icons[1];
-
-                  return (
-                    <motion.button
-                      key={centre.dzongkhag}
-                      type="button"
-                      layout
-                      onClick={() =>
-                        setExpanded(isExpanded ? null : centre.dzongkhag)
-                      }
-                      aria-expanded={isExpanded}
-                      initial={{ opacity: 0, y: 15 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: index * 0.06 }}
-                      className={`
-                        group
-                        rounded-2xl
-                        border
-                        bg-white
-                        p-4
-                        text-left
-                        shadow-sm
-                        transition-all
+                    <span
+                      className="
+                        mt-2
+                        flex
+                        items-center
+                        gap-1
+                        text-[10px]
+                        font-bold
+                        text-white/0
+                        transition-colors
                         duration-300
-                        hover:-translate-y-1
-                        hover:border-blue-200
-                        hover:shadow-md
-                        focus:outline-none
-                        focus-visible:ring-2
-                        focus-visible:ring-blue-400
-                        md:p-5
-                        ${
-                          isHighlighted
-                            ? `${c.border} shadow-md ring-4 ${c.ring}`
-                            : "border-gray-200"
-                        }
-                      `}
+                        group-hover:text-white
+                        group-focus-visible:text-white
+                      "
                     >
-                      {/* Icons */}
-                      <div className="flex items-start justify-between">
-                        <div
-                          className={`
-                            flex
-                            h-10
-                            w-10
-                            items-center
-                            justify-center
-                            rounded-xl
-                            ${c.bg}
-                            transition-transform
-                            duration-300
-                            group-hover:scale-105
-                          `}
-                        >
-                          <Icon1 size={20} className={c.text} />
-                        </div>
-
-                        <div
-                          className={`flex h-8 w-8 items-center justify-center rounded-lg ${c.bg} opacity-60`}
-                        >
-                          <Icon2 size={15} className={c.text} />
-                        </div>
-                      </div>
-
-                      {/* Dzongkhag */}
-                      <span
-                        className={`mt-4 inline-block rounded-full border px-2.5 py-0.5 text-[10px] font-bold ${c.badge}`}
-                      >
-                        {centre.dzongkhag}
-                      </span>
-
-                      {/* Name */}
-                      <h4 className="mt-2 text-xs font-bold leading-snug text-gray-800 md:text-sm">
-                        {centre.name}
-                      </h4>
-
-                      {/* Description */}
-                      <p className="mt-1 line-clamp-2 text-[10px] leading-relaxed text-gray-400 md:text-xs">
-                        {centre.description}
-                      </p>
-
-                      {/* Tags */}
-                      <div className="mt-3 flex flex-wrap gap-1">
-                        {centre.tags.slice(0, 2).map((tag) => (
-                          <span
-                            key={tag}
-                            className="rounded-full border border-gray-100 bg-slate-50 px-2 py-0.5 text-[10px] font-medium text-gray-500"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-
-                      {/* Footer */}
-                      <div className="mt-3 flex items-center justify-between border-t border-gray-100 pt-3">
-                        <span className="flex items-center gap-1 text-[10px] text-gray-400 md:text-xs">
-                          <Users className="h-3 w-3" />
-                          {centre.members}
-                        </span>
-
-                        <span className="flex items-center gap-0.5 text-[10px] font-bold text-gray-500 transition-colors group-hover:text-blue-600 md:text-xs">
-                          {isExpanded ? "Less" : "More"}
-                          <ChevronRight
-                            className={`h-3.5 w-3.5 text-gray-300 transition-all group-hover:text-blue-500 ${
-                              isExpanded ? "rotate-90" : ""
-                            }`}
-                          />
-                        </span>
-                      </div>
-
-                      <AnimatePresence initial={false}>
-                        {isExpanded && (
-                          <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: "auto" }}
-                            exit={{ opacity: 0, height: 0 }}
-                            transition={{ duration: 0.25 }}
-                            className="overflow-hidden"
-                          >
-                            <div className="mt-3 space-y-1 border-t border-gray-100 pt-3">
-                              <p className="flex items-center gap-2 text-[10px] text-gray-500 md:text-xs">
-                                <Phone className={`h-3 w-3 ${c.text}`} />
-                                {centre.phone}
-                              </p>
-
-                              <p className="flex items-center gap-2 text-[10px] text-gray-500 md:text-xs">
-                                <Clock className={`h-3 w-3 ${c.text}`} />
-                                {centre.hours}
-                              </p>
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </motion.button>
-                  );
-                })}
-              </div>
+                      View centre
+                      <ChevronRight className="h-3 w-3" />
+                    </span>
+                  </div>
+                </button>
+              );
+            })}
             </div>
           </div>
 
-          {/* ================================
-              DIRECTORY BAND
-          ================================= */}
-
-          <motion.div
-            className="
-              mt-4
-              rounded-2xl
-              border
-              border-blue-100
-              bg-gradient-to-r
-              from-blue-50
-              via-white
-              to-indigo-50
-              p-4
-              md:p-5
-            "
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.45 }}
-          >
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-
-              {/* Left */}
-
-              <div className="flex items-start gap-3">
-                <div
-                  className="
-                    flex
-                    h-10
-                    w-10
-                    shrink-0
-                    items-center
-                    justify-center
-                    rounded-xl
-                    bg-white
-                    shadow-sm
-                  "
-                >
-                  <Building2 className="h-5 w-5 text-blue-600" />
-                </div>
-
-                <div>
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-blue-600">
-                    Full Directory
-                  </p>
-
-                  <h3 className="mt-0.5 text-sm font-bold text-gray-900 md:text-base">
-                    Browse every centre, contact and opening time
-                  </h3>
-
-                  <p className="mt-1 text-xs leading-relaxed text-gray-500">
-                    Includes Mongar, Trashigang and {ACTIVE_COUNT - 2} more
-                    centres open today.
-                  </p>
-                </div>
-              </div>
-
-              {/* Right */}
-
-              <button
-                onClick={() => setShowModal(true)}
-                className="
-                  group
-                  inline-flex
-                  shrink-0
-                  items-center
-                  justify-center
-                  gap-2
-                  rounded-xl
-                  bg-blue-600
-                  px-5
-                  py-2.5
-                  text-xs
-                  font-bold
-                  text-white
-                  shadow-sm
-                  transition-all
-                  duration-300
-                  hover:-translate-y-0.5
-                  hover:bg-blue-700
-                  hover:shadow-md
-                  md:text-sm
-                "
-              >
-                View all {ACTIVE_COUNT} centres
-                <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-              </button>
+          {/* Progress rail */}
+          <div className="mt-4 flex items-center justify-center">
+            <div className="relative h-1.5 w-full max-w-md overflow-hidden rounded-full bg-gray-200">
+              <div
+                className="absolute top-0 h-full rounded-full bg-blue-600 transition-[left] duration-150"
+                style={{
+                  width: `${Math.min(rail.thumb * 100, 100)}%`,
+                  left: `${rail.ratio * (100 - Math.min(rail.thumb * 100, 100))}%`,
+                }}
+              />
             </div>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </section>
 
-      {/* Modal */}
+      {/* Centre detail */}
 
       <AnimatePresence>
-        {showModal && <AllCentresModal onClose={() => setShowModal(false)} />}
+        {detail && (
+          <CentreDetailModal centre={detail} onClose={() => setDetail(null)} />
+        )}
       </AnimatePresence>
     </>
   );

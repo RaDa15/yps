@@ -122,7 +122,7 @@ const NetworkOverview = () => {
 
         <p className="text-sm text-gray-500 mt-2">
           Monitor volunteer engagement, activities and performance within your
-          Y-PEER network.
+          Youth Led Group network.
         </p>
       </div>
 
@@ -143,7 +143,7 @@ const NetworkOverview = () => {
               </p>
 
               <h2 className="text-xl font-extrabold text-gray-900 mt-1">
-                Y-PEER Bhutan Network
+                Youth Led Group Bhutan Network
               </h2>
 
               <div className="flex items-center gap-2 mt-1 text-xs text-gray-500">

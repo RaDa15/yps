@@ -230,7 +230,7 @@ const YouthCentrePerformance = () => {
           </p>
 
           <p className="text-3xl font-bold text-gray-900 mt-1">
-            12,540
+            24,540
           </p>
 
           <p className="text-xs text-gray-400 mt-1">

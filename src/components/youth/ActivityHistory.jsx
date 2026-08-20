@@ -26,7 +26,7 @@ const ACTIVITY_HISTORY = [
     status: "Validated",
     outcome: "Successfully completed",
     reportStatus: "Approved",
-    organizer: "Thimphu Y-PEER Network",
+    organizer: "Thimphu Youth Led Group Network",
   },
   {
     id: 2,
@@ -38,7 +38,7 @@ const ACTIVITY_HISTORY = [
     status: "Validated",
     outcome: "Leadership training completed",
     reportStatus: "Approved",
-    organizer: "Thimphu Y-PEER Network",
+    organizer: "Thimphu Youth Led Group Network",
   },
   {
     id: 3,
@@ -50,7 +50,7 @@ const ACTIVITY_HISTORY = [
     status: "Pending Report",
     outcome: "Activity completed",
     reportStatus: "Pending",
-    organizer: "Thimphu Y-PEER Network",
+    organizer: "Thimphu Youth Led Group Network",
   },
   {
     id: 4,
@@ -62,7 +62,7 @@ const ACTIVITY_HISTORY = [
     status: "Validated",
     outcome: "Peer awareness session completed",
     reportStatus: "Approved",
-    organizer: "National Y-PEER Network",
+    organizer: "National Youth Led Group Network",
   },
   {
     id: 5,
@@ -86,7 +86,7 @@ const ACTIVITY_HISTORY = [
     status: "Pending Validation",
     outcome: "Volunteer participation recorded",
     reportStatus: "Submitted",
-    organizer: "Thimphu Y-PEER Network",
+    organizer: "Thimphu Youth Led Group Network",
   },
   {
     id: 7,
@@ -98,7 +98,7 @@ const ACTIVITY_HISTORY = [
     status: "Validated",
     outcome: "Peer education activity completed",
     reportStatus: "Approved",
-    organizer: "Thimphu Y-PEER Network",
+    organizer: "Thimphu Youth Led Group Network",
   },
 ];
 

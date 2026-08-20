@@ -16,7 +16,7 @@ const volunteerData = [
   {
     id: 1,
     name: "Sonam Wangchuk",
-    network: "Y-PEER Thimphu",
+    network: "Youth Led Group Thimphu",
     location: "Thimphu",
     status: "Active",
     activities: 18,
@@ -27,7 +27,7 @@ const volunteerData = [
   {
     id: 2,
     name: "Karma Choden",
-    network: "Y-PEER Paro",
+    network: "Youth Led Group Paro",
     location: "Paro",
     status: "Active",
     activities: 14,
@@ -38,7 +38,7 @@ const volunteerData = [
   {
     id: 3,
     name: "Tshering Dorji",
-    network: "Y-PEER Punakha",
+    network: "Youth Led Group Punakha",
     location: "Punakha",
     status: "Active",
     activities: 21,
@@ -49,7 +49,7 @@ const volunteerData = [
   {
     id: 4,
     name: "Pema Lhamo",
-    network: "Y-PEER Chukha",
+    network: "Youth Led Group Chukha",
     location: "Chukha",
     status: "Inactive",
     activities: 5,
@@ -60,7 +60,7 @@ const volunteerData = [
   {
     id: 5,
     name: "Ugyen Tashi",
-    network: "Y-PEER Wangdue",
+    network: "Youth Led Group Wangdue",
     location: "Wangdue",
     status: "Active",
     activities: 17,
@@ -71,7 +71,7 @@ const volunteerData = [
   {
     id: 6,
     name: "Dechen Yangzom",
-    network: "Y-PEER Mongar",
+    network: "Youth Led Group Mongar",
     location: "Mongar",
     status: "Active",
     activities: 12,
@@ -82,7 +82,7 @@ const volunteerData = [
   {
     id: 7,
     name: "Jigme Namgyal",
-    network: "Y-PEER Samtse",
+    network: "Youth Led Group Samtse",
     location: "Samtse",
     status: "Active",
     activities: 16,
@@ -184,7 +184,7 @@ const VolunteerAnalytics = () => {
 
         <p className="text-sm text-gray-500 mt-1">
           Monitor volunteer participation, retention and contribution
-          across all Y-PEER networks.
+          across all Youth Led Group networks.
         </p>
 
       </div>
@@ -442,7 +442,7 @@ const VolunteerAnalytics = () => {
                       />
 
                       <span className="text-sm font-semibold text-gray-900">
-                        Y-PEER {network.network}
+                        Youth Led Group {network.network}
                       </span>
 
                     </div>
@@ -756,7 +756,7 @@ const VolunteerAnalytics = () => {
 
             <p className="text-sm text-slate-300 mt-1 leading-relaxed">
               Volunteer participation is trending upward across
-              the Y-PEER network. Active volunteers currently
+              the Youth Led Group network. Active volunteers currently
               contribute approximately {avgHours} hours per volunteer.
               Network retention is strongest in Thimphu and Punakha.
             </p>

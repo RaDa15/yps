@@ -35,7 +35,7 @@ const INITIAL_VOLUNTEERS = [
     gender: "Female",
     age: 22,
     phone: "17654321",
-    category: "Y-PEER Volunteer",
+    category: "Youth Led Group Volunteer",
     programme: "Youth Awareness",
     hours: 36,
     status: "Active",
@@ -615,7 +615,7 @@ const VolunteerRegistration = () => {
                   onChange={handleInputChange}
                   options={[
                     "Youth Volunteer",
-                    "Y-PEER Volunteer",
+                    "Youth Led Group Volunteer",
                     "Community Volunteer",
                     "Event Volunteer",
                   ]}

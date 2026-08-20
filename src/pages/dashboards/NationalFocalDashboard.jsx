@@ -19,7 +19,7 @@ import {
 
 const NETWORK_DATA = [
   {
-    name: "Thimphu Y-PEER Network",
+    name: "Thimphu Youth Led Group Network",
     location: "Thimphu",
     volunteers: 186,
     activities: 24,
@@ -28,7 +28,7 @@ const NETWORK_DATA = [
     status: "Active",
   },
   {
-    name: "Paro Y-PEER Network",
+    name: "Paro Youth Led Group Network",
     location: "Paro",
     volunteers: 142,
     activities: 18,
@@ -37,7 +37,7 @@ const NETWORK_DATA = [
     status: "Active",
   },
   {
-    name: "Punakha Y-PEER Network",
+    name: "Punakha Youth Led Group Network",
     location: "Punakha",
     volunteers: 118,
     activities: 15,
@@ -46,7 +46,7 @@ const NETWORK_DATA = [
     status: "Active",
   },
   {
-    name: "Phuentsholing Y-PEER Network",
+    name: "Phuentsholing Youth Led Group Network",
     location: "Chukha",
     volunteers: 96,
     activities: 12,
@@ -60,21 +60,21 @@ const NETWORK_DATA = [
 const UPCOMING_ACTIVITIES = [
   {
     title: "National Youth Leadership Workshop",
-    network: "All Y-PEER Networks",
+    network: "All Youth Led Group Networks",
     date: "12 Aug 2026",
     participants: 85,
     type: "National",
   },
   {
     title: "Peer Education Training",
-    network: "Thimphu Y-PEER",
+    network: "Thimphu Youth Led Group",
     date: "15 Aug 2026",
     participants: 42,
     type: "Training",
   },
   {
     title: "Community Health Awareness",
-    network: "Paro Y-PEER",
+    network: "Paro Youth Led Group",
     date: "18 Aug 2026",
     participants: 60,
     type: "Outreach",
@@ -96,7 +96,7 @@ const NationalFocalDashboard = () => {
 
           <div className="flex items-center gap-2 text-teal-600 text-sm font-medium">
             <MapPin size={15} />
-            National Y-PEER Network
+            National Youth Led Group Network
           </div>
 
           <h1 className="text-3xl font-bold text-gray-900 mt-1">
@@ -209,7 +209,7 @@ const NationalFocalDashboard = () => {
           </div>
 
           <p className="text-xs text-gray-500 mt-4">
-            Active Y-PEER Networks
+            Active Youth Led Group Networks
           </p>
 
           <h2 className="text-2xl font-bold text-gray-900 mt-1">
@@ -527,7 +527,7 @@ const NationalFocalDashboard = () => {
           <div>
 
             <h2 className="text-lg font-bold text-gray-900">
-              Y-PEER Network Performance
+              Youth Led Group Network Performance
             </h2>
 
             <p className="text-sm text-gray-500">
@@ -726,7 +726,7 @@ const NationalFocalDashboard = () => {
               </h2>
 
               <p className="text-sm text-gray-500">
-                Scheduled Y-PEER activities
+                Scheduled Youth Led Group activities
               </p>
 
             </div>

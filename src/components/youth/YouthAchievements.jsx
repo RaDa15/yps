@@ -70,7 +70,7 @@ const ACHIEVEMENTS = [
   },
   {
     id: 6,
-    title: "Y-PEER Ambassador",
+    title: "Youth Led Group Ambassador",
     description: "Complete 20 activities and demonstrate consistent engagement.",
     category: "Leadership",
     requirement: "20 activities",

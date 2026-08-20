@@ -180,7 +180,7 @@ const VolunteerApplications = () => {
 
         <p className="text-sm text-gray-500 mt-2 max-w-3xl">
           Review and manage volunteer applications submitted to your
-          Y-PEER network.
+          Youth Led Group network.
         </p>
 
       </div>

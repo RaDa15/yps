@@ -34,7 +34,7 @@ const NetworkManagement = () => {
   });
 
   const [network, setNetwork] = useState({
-    name: "Y-PEER Bhutan Network",
+    name: "Youth Led Group Bhutan Network",
     focalPoint: "Pema Choden",
     location: "Thimphu",
     email: "ypeer@example.bt",
